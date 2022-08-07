@@ -4,7 +4,6 @@ node_modules
 # parcel
 .parcel-cache
 dist
-dist/*
 # CDK asset staging directory
 .cdk.staging
 cdk.out
