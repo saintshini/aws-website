@@ -71,8 +71,3 @@ export class ChallengeAwsStack extends Stack {
     });   
   }
 }
-// https://aws-cdk.com/
-// https://codepen.io/emzarts/pen/OXzmym
-// https://parceljs.org/features/development/
-// https://codesandbox.io/s/compassionate-galois-m97e8t?file=/src/index.js
-// https://cloudresumechallenge.dev/docs/the-challenge/aws/
