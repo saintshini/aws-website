@@ -1,15 +1,21 @@
-import json
-import boto3
+import json, boto3
 
 dynamodb = boto3.resource('dynamodb');
 table_name = 'visitor_count';
 table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
-
+    
     response = table.get_item(Key= {'id' : 'count'})
     count = response['Item']['visitor_count']
-
+    
+    if count:
+        response = table.put_item(
+                Item={
+                    'id':'count',
+                    'visitor_count':'0'
+                }
+         )    
     new_count = str(int(count)+1)
     response = table.update_item(
         Key= {'id': 'count'},
