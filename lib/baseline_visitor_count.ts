@@ -74,7 +74,7 @@ class VisitorCount extends Construct {
           description: 'rest api gateway for lambda write_table',
           deploy: true,
           deployOptions: {
-            stageName: 'sandbox'
+            stageName: 'integration'
           },
         })
     }
