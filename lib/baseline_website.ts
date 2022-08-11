@@ -20,7 +20,7 @@ export class ChallengeAwsStack extends Stack {
     const bucketName = this.node.tryGetContext('bucketName');
     const regionCertificate = this.node.tryGetContext('regionCertificate');
 
-    const visitor_count = new VisitorCount(this,'visitor_count');
+    new VisitorCount(this,'visitor_count');
 
     const hostedZone = new HostedZone(this, 'hosted_zone_sandbox', { zoneName: hostedZoneName });
 
