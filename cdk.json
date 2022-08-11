@@ -1,5 +1,5 @@
 {
-  "app": "npx ts-node --prefer-ts-exts bin/main.ts && node ./lib/hooks/ddb_putitem_hooks.js",
+  "app": "npx ts-node --prefer-ts-exts bin/main.ts && node ./src/hooks/ddb_putitem_hooks.js",
   "post-deploy": "node ./lib/hooks/ddb_putitem_hooks.js",
   "watch": {
     "include": [

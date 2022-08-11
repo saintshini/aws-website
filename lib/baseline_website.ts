@@ -57,7 +57,7 @@ export class ChallengeAwsStack extends Stack {
 
     new BucketDeployment(this, 'deployment_bucket', {
       destinationBucket: bucket,
-      sources: [Source.asset(path.resolve(__dirname, './dist'))],
+      sources: [Source.asset(path.resolve(__dirname, '../src'))],
       distribution: distribution,
       distributionPaths: ['/*'],
     })
