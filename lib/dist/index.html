@@ -103,9 +103,17 @@
 					</li>
 				</ul>
 			</div>
-			<h1>This site has been visited <span id="visits"></span> times.</h1>
-			<script async src="https://api.countapi.xyz/hit/localhost/b6d5d8c2-af6f-4459-a29c-0bbd315f48da?callback=websiteVisits"></script>
-			<script src="visitor_count.js"></script>
+			<p class="counter"> The number of visitors to this website is </p>
+			<p id ="body"></p>
+				<script type = "text/javascript">
+				  var apiUrl = "https://6l3bguzot7.execute-api.us-east-1.amazonaws.com/prod/vcount";
+					  fetch(apiUrl)
+						 .then(response => response.json())
+						 .then(data =>{
+							  var count = document.getElementById('body');
+						  count.innerHTML = data.body;
+						  console.log(data)});
+				   </script>
 		</div>
 	</div>
 </body>

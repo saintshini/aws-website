@@ -22,7 +22,9 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
+    "@aws-sdk/credential-provider-sso": "^3.145.0",
     "aws-cdk-lib": "2.35.0",
+    "aws-sdk": "^2.1192.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }

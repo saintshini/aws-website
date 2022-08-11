@@ -7,6 +7,8 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { HostedZone, RecordTarget, ARecord } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { CertificateValidation, DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
+import VisitorCount from './baseline_visitor_count';
+
 const path = require('path');
 
 export class ChallengeAwsStack extends Stack {
@@ -17,6 +19,8 @@ export class ChallengeAwsStack extends Stack {
     const aRecordName = this.node.tryGetContext('aRecordName');
     const bucketName = this.node.tryGetContext('bucketName');
     const regionCertificate = this.node.tryGetContext('regionCertificate');
+
+    const visitor_count = new VisitorCount(this,'visitor_count');
 
     const hostedZone = new HostedZone(this, 'hosted_zone_sandbox', { zoneName: hostedZoneName });
 
@@ -65,9 +69,5 @@ export class ChallengeAwsStack extends Stack {
         new CloudFrontTarget(distribution)
       ),
     });
-
-    new CfnOutput(this, "distribution_domainName", {
-      value: distribution.domainName,
-    });   
   }
 }
