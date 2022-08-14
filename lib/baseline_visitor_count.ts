@@ -66,7 +66,10 @@ class VisitorCount extends Construct {
           timeout: Duration.seconds(30),
           memorySize: 128,
           role: roleLambdaService,
-          architecture: Architecture.ARM_64
+          architecture: Architecture.ARM_64,
+          environment:{
+            NAME_TABLE: 'visitor_count'
+          }
         });
         new LambdaRestApi(this,'api_gateway_write_table',{
           handler: write_table,

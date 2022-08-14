@@ -1,8 +1,13 @@
 import json, boto3
+import os
+
+name_table = os.environ['NAME_TABLE']
 
 dynamodb = boto3.resource('dynamodb');
-table_name = 'visitor_count';
+table_name = name_table;
 table = dynamodb.Table(table_name)
+
+
 
 def lambda_handler(event, context):
 
@@ -17,7 +22,6 @@ def lambda_handler(event, context):
         )
     else:
         count = response['Item']['visitor_count']
-        
         new_count = str(int(count)+1)
         response = table.update_item(
             Key= {'id': 'count'},
