@@ -14,8 +14,10 @@ class VisitorCount extends Construct {
     constructor(scope: any, id: string) {
         super(scope, id);
 
+        const table_name = this.node.tryGetContext('table_name');
+
         const table_visitor_count = new Table(this,'table_visitor_count',{
-          tableName: 'visitor_count',
+          tableName: table_name,
           partitionKey: {name:'id', type: AttributeType.STRING},
           billingMode: BillingMode.PAY_PER_REQUEST,
           removalPolicy: RemovalPolicy.DESTROY,
@@ -68,7 +70,7 @@ class VisitorCount extends Construct {
           role: roleLambdaService,
           architecture: Architecture.ARM_64,
           environment:{
-            NAME_TABLE: 'visitor_count'
+            NAME_TABLE: table_name
           }
         });
         new LambdaRestApi(this,'api_gateway_write_table',{
