@@ -1,0 +1,7 @@
+{
+    "rootdomain": "cloudruggiresume.com",
+    "aRecordName": "website",
+    "subdomain": "www.cloudruggiresume.com",
+    "region": "us-east-1",
+    "tableName": "visitor_count"
+}

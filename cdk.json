@@ -36,11 +36,6 @@
     "@aws-cdk/core:target-partitions": [
       "aws",
       "aws-cn"
-    ],
-    "hostedZoneName": "test.com",
-    "aRecordName": "website",
-    "bucketName": "challenge-aws-web-site",
-    "regionCertificate": "us-east-1",
-    "table_name": "visitor_count"
+    ]
   }
 }

@@ -15,6 +15,7 @@ class VisitorCount extends Construct {
         super(scope, id);
 
         const table_name = this.node.tryGetContext('table_name');
+        const region = this.node.tryGetContext('region');
 
         const table_visitor_count = new Table(this,'table_visitor_count',{
           tableName: table_name,
@@ -70,7 +71,8 @@ class VisitorCount extends Construct {
           role: roleLambdaService,
           architecture: Architecture.ARM_64,
           environment:{
-            NAME_TABLE: table_name
+            NAME_TABLE: table_name,
+            REGION: region
           }
         });
         new LambdaRestApi(this,'api_gateway_write_table',{

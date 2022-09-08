@@ -2,22 +2,26 @@ import json, boto3
 import os
 
 name_table = os.environ['NAME_TABLE']
+region = os.environ['REGION']
 
-dynamodb = boto3.resource('dynamodb');
+dynamodb = boto3.resource('dynamodb',region_name= region);
 table_name = name_table;
 table = dynamodb.Table(table_name)
+
+def write_into_table(table):
+    table.put_item(
+        Item={
+            'id':'count',
+            'visitor_count':'0'
+        }
+    )
 
 def lambda_handler(event, context):
 
     response = table.get_item(Key= {'id' : 'count'})
     
     if "Item" not in response:
-        table.put_item(
-            Item={
-                'id':'count',
-                'visitor_count':'0'
-            }
-        )
+        write_into_table(table)
     else:
         count = response['Item']['visitor_count']
         new_count = str(int(count)+1)
