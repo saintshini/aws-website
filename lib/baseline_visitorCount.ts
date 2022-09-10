@@ -11,14 +11,13 @@ import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
 const path = require('path');
 
 class VisitorCount extends Construct {
-    constructor(scope: any, id: string) {
+    constructor(scope: any, id: string,{config}:any) {
         super(scope, id);
+        
+        const {tableName, region} = config
 
-        const table_name = this.node.tryGetContext('table_name');
-        const region = this.node.tryGetContext('region');
-
-        const table_visitor_count = new Table(this,'table_visitor_count',{
-          tableName: table_name,
+        const table_visitorCount = new Table(this,'table_visitorCount',{
+          tableName: tableName,
           partitionKey: {name:'id', type: AttributeType.STRING},
           billingMode: BillingMode.PAY_PER_REQUEST,
           removalPolicy: RemovalPolicy.DESTROY,
@@ -41,7 +40,7 @@ class VisitorCount extends Construct {
                       'dynamodb:Get*',
                       'dynamodb:DescribeTable'
                     ],
-                    resources: [table_visitor_count.tableArn],
+                    resources: [table_visitorCount.tableArn],
                   }),
                 ],
               }),
@@ -71,7 +70,7 @@ class VisitorCount extends Construct {
           role: roleLambdaService,
           architecture: Architecture.ARM_64,
           environment:{
-            NAME_TABLE: table_name,
+            NAME_TABLE: tableName,
             REGION: region
           }
         });

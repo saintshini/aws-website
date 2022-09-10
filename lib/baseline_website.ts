@@ -7,35 +7,40 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { HostedZone, RecordTarget, ARecord } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { CertificateValidation, DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
-// import VisitorCount from './baseline_visitor_count';
-const config = require('../config/development.json'); //Fixme
+import VisitorCount from './baseline_visitorCount';
+
 const path = require('path');
 
 export class ChallengeAwsStack extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(scope: any, id: string, props: any) {
     super(scope, id, props);
 
-    // new VisitorCount(this,'visitor_count');
+    const {config} = props
+    const {rootdomain, subdomain, region} = config
 
-    const hostedZone = new HostedZone(this, 'hosted_zone', { zoneName: config.rootdomain, comment: 'A hosted zone for cloud resume challenge' });
+    new VisitorCount(this,'visitorCount',{
+      config
+    });
+    
+    const hostedZone = new HostedZone(this, 'hosted_zone', { zoneName: rootdomain, comment: 'A hosted zone for cloud resume challenge' });
 
     const certificateManagerCertificate = new DnsValidatedCertificate(this, 'certificate_manager', {
-      domainName: `*.${config.rootdomain}`,
+      domainName: `*.${rootdomain}`,
       hostedZone: hostedZone,
-      region: config.region,
+      region: region,
       validation: CertificateValidation.fromDns(hostedZone),
     });
 
     const bucketSubdomain = new Bucket(this,'bucket_subdomain',{
-      bucketName: config.subdomain,
+      bucketName: subdomain,
       removalPolicy: RemovalPolicy.DESTROY
       // props default
       // store all the files for your website
     })
 
     const bucketRootdomain = new Bucket(this,'bucket_rootdomain',{
-      bucketName: config.rootdomain,
-      websiteRedirect: { hostName: config.subdomain, protocol: RedirectProtocol.HTTPS },
+      bucketName: rootdomain,
+      websiteRedirect: { hostName: subdomain, protocol: RedirectProtocol.HTTPS },
       removalPolicy: RemovalPolicy.DESTROY
       // props default
       // access your sample website
@@ -54,7 +59,7 @@ export class ChallengeAwsStack extends Stack {
     bucketSubdomain.grantRead(originAccessIdentity);
 
     const distributionSubdomain = new Distribution(this, 'cloudfront_distribution_subdomain', {
-      domainNames: [config.subdomain],
+      domainNames: [subdomain],
       defaultRootObject: 'index.html',
       defaultBehavior: {
         origin: new S3Origin(bucketSubdomain, {originAccessIdentity}),
@@ -68,7 +73,7 @@ export class ChallengeAwsStack extends Stack {
     });
 
     const distributionRootdomain = new Distribution(this, 'cloudfront_distribution_rootdomain', {
-      domainNames: [config.rootdomain],
+      domainNames: [rootdomain],
       defaultBehavior: {
         origin: new S3Origin(bucketSubdomain),
         compress: true,
