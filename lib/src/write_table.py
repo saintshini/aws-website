@@ -12,7 +12,7 @@ def write_into_table(table):
     table.put_item(
         Item={
             'id':'count',
-            'visitor_count':'0'
+            name_table:'0'
         }
     )
 
@@ -23,14 +23,18 @@ def lambda_handler(event, context):
     if "Item" not in response:
         write_into_table(table)
     else:
-        count = response['Item']['visitor_count']
+        count = response['Item'][name_table]
         new_count = str(int(count)+1)
         response = table.update_item(
             Key= {'id': 'count'},
-            UpdateExpression= 'set visitor_count = :c',
+            UpdateExpression= 'set '+name_table+' = :c',
             ExpressionAttributeValues= {':c': new_count},
             ReturnValues= 'UPDATED_NEW'
         )
-        return {'statusCode': 200,
-            'body': new_count
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            'body': json.dumps(new_count)
         }

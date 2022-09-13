@@ -28,3 +28,7 @@ cdk deploy
 ```
 cdk destroy
 ```
+
+## Comments
+
+the second redirect for the bucket is only necessary if you want people to still find your site when they type "www" in front of it. I recommend people follow that tutorial straight through without skipping any steps because often when they try to use just one bucket, they get confused by the later instructions and start wiring things up wrong
