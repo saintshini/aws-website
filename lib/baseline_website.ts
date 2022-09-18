@@ -49,7 +49,7 @@ export class ChallengeAwsStack extends Stack {
 
 
     // new BucketDeployment(this, 'deployment_webserver', {
-    //   sources: [Source.asset(path.resolve(__dirname, '../src'))],
+    //   sources: [Source.asset(path.resolve(__dirname, '../html'))],
     //   destinationBucket: bucketSubdomain
     //   //distribution: distribution,
     //   //distributionPaths: ['/*'],

@@ -62,7 +62,7 @@ class VisitorCount extends Construct {
           });
         const write_table = new Function(this,'lambda_write_table_service', {
           handler: 'write_table.lambda_handler',
-          code: Code.fromAsset(path.join(__dirname, './src')),
+          code: Code.fromAsset(path.join(__dirname, '../src')),
           runtime: Runtime.PYTHON_3_9,
           functionName: 'lambda_write_table_service',
           timeout: Duration.seconds(30),
