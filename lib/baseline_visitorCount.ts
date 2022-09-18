@@ -79,6 +79,17 @@ class VisitorCount extends Construct {
           restApiName: 'api_write_table',
           description: 'rest api gateway for lambda write_table',
           deploy: true,
+          defaultCorsPreflightOptions:{
+            allowOrigins: ['*'], // an array of the origins that are allowed to make requests to our rest API. If you own a domain
+            allowHeaders: [ //specifies which HTTP headers the frontend is allowed to use when making request to our REST Api
+              'Content-Type',
+              'X-Amz-Date',
+              'Authorization',
+              'X-Api-Key',
+            ],
+            allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'], //an array of the HTTP methods our frontend is allowed to use when calling our REST Api
+            allowCredentials: true, //whether to expose the API Gateway response to the frontend when the request's credentials mode is set to include. When credentials mode is set to include, our frontend will always send user credentials (i.e. cookies, auth headers) even for CORS calls.
+          },
           deployOptions: {
             stageName: 'integration'
           },
