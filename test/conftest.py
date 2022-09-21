@@ -1,7 +1,6 @@
 import boto3
 import os
 import pytest
-
 from moto import mock_dynamodb
 
 

@@ -1,14 +1,15 @@
-import boto3
 import pytest
-from write_table_01 import write_into_table
+from moto import mock_dynamodb
+from src import write_into_table
 
 @pytest.fixture
 def name_table():
     return 'visitorCounter'
 
-@pytest.fixture
-def create_table_db(dynamodb_client,name_table):
-    dynamodb_client.create_table(TableName=name_table,
+@mock_dynamodb
+def test_write_into_table(dynamodb_client,name_table):
+    creation_table = dynamodb_client.create_table(
+        TableName=name_table,
         KeySchema=[
             {'AttributeName': 'id',
             'KeyType': 'HASH'
@@ -16,19 +17,11 @@ def create_table_db(dynamodb_client,name_table):
         AttributeDefinitions=[
             {'AttributeName': 'id',
             'AttributeType': 'S'
-            }])
-    yield
-
-@pytest.fixture
-def test_write_into_table(create_table_db):
-    write_into_table(create_table_db);
-    data = {'id':'count','visitor_count':'0'};
-    response = create_table_db.get_item(Key={'id':data['id']});
-    actual_output = response['Item'];
-    assert actual_output == data;
-
-@pytest.fixture
-def list_all_tables(dynamodb_client):
-    tables = dynamodb_client.tables.all();
-    assert tables ==['visitorCounter']
+            }],
+        BillingMode='PAY_PER_REQUEST'
+    ),
+    table_name = dynamodb_client.Table(name_table);
+    write_into_table(table_name);
+    list_tables = dynamodb_client.tables.all()
+    print(list_tables)
     

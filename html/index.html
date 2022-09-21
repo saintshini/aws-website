@@ -121,16 +121,15 @@
               <div class="pb-2">Argentina, Buenos Aires, Caseros</div>
             </div>
             <div class="col-sm-5">
-              <div class="pb-2 fw-bolder"><i class="far fa-calendar-alt pe-2 text-muted" style="width:24px;opacity:0.85;"></i>v. count</div>
+              <div class="pb-2 fw-bolder"><i class="far fa-calendar-alt pe-2 text-muted" style="width:24px;opacity:0.85;"></i>visitor count</div>
             </div>
             <div class="col-sm-7">
-              <div class="body">22</div>
+              <div id="body"></div>
               <script>
-                fetch('https://wn3mxv0gl4.execute-api.us-east-1.amazonaws.com/integration/')
+                fetch('https://uwl44t9svg.execute-api.us-east-1.amazonaws.com/integration/')
                   .then(response => response.text())
                   .then((data) => {
-                    document.getElementById("body").innerHTML = data;
-                    console.log(data)});
+                    document.getElementById("body").innerHTML = data;});
               </script>
             </div>
           </div>
