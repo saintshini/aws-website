@@ -1,6 +1,6 @@
 import pytest
 from moto import mock_dynamodb
-from src import write_into_table
+from src.write_table import write_into_table
 
 @pytest.fixture
 def name_table():
